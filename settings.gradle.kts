@@ -1,8 +1,10 @@
 pluginManagement {
     repositories {
         google()
+        jcenter()
         gradlePluginPortal()
         mavenCentral()
+        maven("https://kotlin.bintray.com/kotlinx")
     }
 }
 
