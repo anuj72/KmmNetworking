@@ -1,5 +1,6 @@
 package com.example.mytestkmm
 
+import com.example.mytestkmm.dto.Hello
 import com.github.aakira.napier.Napier
 import kotlinx.serialization.Serializable
 import io.ktor.client.features.json.JsonFeature
@@ -8,25 +9,20 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
 
-@Serializable
-data class Hello(
-    val string: String,
-)
+
 class Greeting {
+    // this log code only to log http in both ios and android
     private val httpClient = httpClient() {
         install(Logging) {
             level = LogLevel.HEADERS
             logger = object : Logger {
                 override fun log(message: String) {
                     Napier.v(tag = "HTTP Client", message = message)
-                }
-            }
-        }
+                } } }
         install(JsonFeature) {
             val json = Json { ignoreUnknownKeys = true }
             serializer = KotlinxSerializer(json)
-        }
-    }.also { initLogger() }
+        } }.also { initLogger() }
 
     @Throws(Throwable::class)
     suspend fun greeting(): String {
