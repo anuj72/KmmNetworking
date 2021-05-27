@@ -1,0 +1,14 @@
+CREATE TABLE  hello(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM hello;
+
+insertHello:
+INSERT OR REPLACE
+INTO hello (
+    title
+) VALUES ( ? );

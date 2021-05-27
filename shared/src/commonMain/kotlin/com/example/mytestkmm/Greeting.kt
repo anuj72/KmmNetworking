@@ -1,5 +1,6 @@
 package com.example.mytestkmm
 
+import com.example.mytestkmm.data.Database
 import com.example.mytestkmm.dto.Hello
 import com.github.aakira.napier.Napier
 import kotlinx.serialization.Serializable
@@ -10,7 +11,9 @@ import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
 
 
-class Greeting {
+class Greeting(databaseDriverFactory: DatabaseDriverFactory) {
+    var database = Database(databaseDriverFactory)
+
     // this log code only to log http in both ios and android
     private val httpClient = httpClient() {
         install(Logging) {
@@ -26,10 +29,18 @@ class Greeting {
 
     @Throws(Throwable::class)
     suspend fun greeting(): String {
-        return "${getHello().toString()}, ${Platform().platform}!"
+        insertData()
+        return "${getData().toString()}, ${Platform().platform}!"
     }
 
+     fun insertData() {
+      database.insert("hello")
+    }
+    fun getData():List<com.example.mytestkmm.cache.Hello> {
+       return database.getData()
+    }
     private suspend fun getHello(): List<Hello> {
         return httpClient.get("https://gitcdn.link/cdn/KaterinaPetrova/greeting/7d47a42fc8d28820387ac7f4aaf36d69e434adc1/greetings.json")
+
     }
 }

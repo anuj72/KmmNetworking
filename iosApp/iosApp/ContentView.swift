@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-	let greeting = Greeting()
+	let greeting = Greeting(databaseDriverFactory: DatabaseDriverFactory())
     
     @State var greet = "Loading ..."
      
