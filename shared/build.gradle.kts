@@ -26,9 +26,12 @@ kotlin {
     sourceSets {
         val ktor_version="1.5.4"
         val sql_delight_version="1.5.0"
+        val coroutinesVersion = "1.3.9-native-mt"
 
         val commonMain by getting  {
             dependencies {
+
+
                 //Logger
               implementation("com.github.aakira:napier:1.4.1")
 
@@ -40,6 +43,12 @@ kotlin {
                 // Serialization
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.1.0")
                 implementation("com.squareup.sqldelight:runtime:$sql_delight_version")
+
+
+                //coroutines
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+
+
             }
         }
         val commonTest by getting {

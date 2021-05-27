@@ -1,7 +1,11 @@
 package com.example.mytestkmm
 
+import android.content.Context
+import com.example.mytestkmm.cache.MyAppDb
 import com.github.aakira.napier.DebugAntilog
 import com.github.aakira.napier.Napier
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import io.ktor.client.*
 import io.ktor.client.engine.okhttp.*
 import java.util.concurrent.TimeUnit
@@ -24,4 +28,11 @@ actual fun httpClient(config: HttpClientConfig<*>.() -> Unit) = HttpClient(OkHtt
 
 actual fun initLogger() {
     Napier.base(DebugAntilog())
+}
+
+
+actual class DatabaseDriverFactory(private val context: Context) {
+    actual fun createDriver(): SqlDriver {
+        return AndroidSqliteDriver(MyAppDb.Schema, context, "test.db")
+    }
 }
