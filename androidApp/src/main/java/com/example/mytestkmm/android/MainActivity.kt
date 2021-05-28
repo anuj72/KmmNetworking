@@ -1,24 +1,39 @@
 package com.example.mytestkmm.android
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.mytestkmm.Greeting
-import android.widget.TextView
-import com.example.mytestkmm.DatabaseDriverFactory
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.mytestkmm.android.databinding.ActivityMainBinding
+import com.google.gson.Gson
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import org.json.JSONObject
 
+private val mainScope = MainScope()
 
-private  val mainScope=MainScope()
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: MainViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-         val greeting=Greeting(DatabaseDriverFactory(applicationContext))
+        binding = ActivityMainBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+        }
+
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        viewModel.users.observe(this) {
+            val jsonString = Gson().toJson(it)
+            val jsonObject = JSONObject(jsonString)
+
+            val prettyJsonString = jsonObject.toString(2)
+            binding.textView.text = prettyJsonString
+        }
+        /*val greeting = Greeting(DatabaseDriverFactory(applicationContext))
         val tv: TextView = findViewById(R.id.text_view)
-        tv.text="loading..."
+        tv.text = "loading..."
         mainScope.launch {
             kotlin.runCatching {
                 greeting.greeting()
@@ -27,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             }.onFailure {
                 tv.text = "Error: ${it.localizedMessage}"
             }
-        }
+        }*/
     }
 
     override fun onDestroy() {

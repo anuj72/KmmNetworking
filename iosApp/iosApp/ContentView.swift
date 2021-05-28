@@ -3,6 +3,7 @@ import shared
 
 struct ContentView: View {
 	let greeting = Greeting(databaseDriverFactory: DatabaseDriverFactory())
+	let
     
     @State var greet = "Loading ..."
      

@@ -10,12 +10,11 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.request.*
 import kotlinx.serialization.json.Json
 
-
 class Greeting(databaseDriverFactory: DatabaseDriverFactory) {
     var database = Database(databaseDriverFactory)
 
     // this log code only to log http in both ios and android
-    private val httpClient = httpClient() {
+    private val httpClient = httpClient {
         install(Logging) {
             level = LogLevel.HEADERS
             logger = object : Logger {
